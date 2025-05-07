@@ -20,14 +20,12 @@
         <label for="passwordRegister">Contraseña</label>
         <input required name="passwordRegister" id="passwordRegister" type="text" placeholder="Ingrese su contraseña..">
         <br><br>
-        <!--
         <label for="rolRegister">Roles</label>
         <br>
-        <input required name="rolRegister" id="rolRegister" type="checkbox" value="autor"><label>Autor</label>
+        <input name="isAutorRegister" id="isAutorRegister" type="checkbox" value="yes"><label>Autor</label>
         <br>
-        <input required name="rolRegister" id="rolRegister" type="checkbox" value="revisor"><label>Revisor</label>
+        <input name="isReviserRegister" id="isReviserRegister" type="checkbox" value="yes"><label>Revisor</label>
         <br>
-        -->
         <button type="submit">Ingresar</button>
     </form>
     <h3>¿Ya estas registrado? <a href="/Tarea2-BDD/PHP/Pages/login.php">inicia sesion aquí.</a></h3>
