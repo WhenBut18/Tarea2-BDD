@@ -8,8 +8,8 @@
 <body>
     <h1>Inicia Sesion</h1>
     <form action="/Tarea2-BDD/PHP/Logic/loginLogic.php" method="post">
-        <label for="mailLogin">Correo</label>
-        <input required id="mailLogin" name="mailLogin" type="email" placeholder="Ingrese su correo.." >
+        <label for="rutLogin">Rut Usuario (sin puntos ni guion)</label>
+        <input required id="rutLogin" name="rutLogin" type="text" placeholder="Ingrese su rut.." >
         <br><br>
         <label for="passwordLogin">Contraseña</label>
         <input required name="passwordLogin" id="passwordLogin" type="text" placeholder="Ingrese su contraseña..">

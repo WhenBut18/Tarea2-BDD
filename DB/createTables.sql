@@ -1,6 +1,6 @@
 -- Tabla de Usuarios (Autores y Revisores)
 CREATE TABLE usuario (
-    RutAut VARCHAR(12) PRIMARY KEY,
+    Rut VARCHAR(12) PRIMARY KEY,
     Nombre VARCHAR(50) NOT NULL,
     Correo VARCHAR(150) NOT NULL UNIQUE,
     Contraseña VARCHAR(50) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE revisiones (
     RutRev VARCHAR(12),
     CONSTRAINT PK_revisiones PRIMARY KEY (IDArticulo, RutRev),
     CONSTRAINT FK_revisiones_IDArticulo FOREIGN KEY (IDArticulo) REFERENCES articulos(IDArticulo) ON DELETE CASCADE,
-    CONSTRAINT FK_revisiones_RutRev FOREIGN KEY (RutRev) REFERENCES usuario(RutAut) ON DELETE CASCADE
+    CONSTRAINT FK_revisiones_RutRev FOREIGN KEY (RutRev) REFERENCES usuario(Rut) ON DELETE CASCADE
 );
 
 -- Tabla de Tópicos de Revisores
@@ -37,7 +37,7 @@ CREATE TABLE topicosRevisores (
     RutRev VARCHAR(12),
     CONSTRAINT PK_topicosRevisores PRIMARY KEY (IDTopico, RutRev),
     CONSTRAINT FK_topicosRevisores_IDTopico FOREIGN KEY (IDTopico) REFERENCES topicos(IDTopico) ON DELETE CASCADE,
-    CONSTRAINT FK_topicosRevisores_RutRev FOREIGN KEY (RutRev) REFERENCES usuario(RutAut) ON DELETE CASCADE
+    CONSTRAINT FK_topicosRevisores_RutRev FOREIGN KEY (RutRev) REFERENCES usuario(Rut) ON DELETE CASCADE
 );
 
 -- Tabla de Tópicos de Artículos
@@ -56,5 +56,5 @@ CREATE TABLE autoresArticulos (
     EsContacto BOOLEAN DEFAULT FALSE,
     CONSTRAINT PK_autoresArticulos PRIMARY KEY (IDArticulo, RutAut),
     CONSTRAINT FK_autoresArticulos_IDArticulo FOREIGN KEY (IDArticulo) REFERENCES articulos(IDArticulo) ON DELETE CASCADE,
-    CONSTRAINT FK_autoresArticulos_RutAut FOREIGN KEY (RutAut) REFERENCES usuario(RutAut) ON DELETE CASCADE
+    CONSTRAINT FK_autoresArticulos_RutAut FOREIGN KEY (RutAut) REFERENCES usuario(Rut) ON DELETE CASCADE
 );

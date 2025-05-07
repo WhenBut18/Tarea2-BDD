@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Esta seccion del codigo se encarga de llamar a la Base de Datos para insertar los nuevos datos de Register
     $mysqli = require "databaseConnect.php";
-    $sql = "INSERT INTO usuario (RutAut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
+    $sql = "INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
             VALUES(?,?,?,?,?,?)";
 
     $stmt = $mysqli->stmt_init();
@@ -39,13 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $stmt->bind_param("ssssii", $rutRegister, $nameRegister, $mailRegister, $passwordRegister,$isAutorRegister,$isRevisorRegister);
     $stmt->execute();
+    $stmt->close();
     echo "Registor exitosos<br><br>";
 
     // Codigo Auxiliar para imprimir todos los autores registrados BORRAR DESPUES
     $sql = "SELECT * FROM usuario";
     $result = $mysqli->query($sql);
     while ($row = $result->fetch_assoc()) {
-        echo "RutAut: " . $row["RutAut"] . "<br>";
+        echo "Rut: " . $row["Rut"] . "<br>";
         echo "Nombre: " . $row["Nombre"] . "<br>";
         echo "Contraseña: " . $row["Contraseña"] . "<br>";
         echo "Correo: " . $row["Correo"] . "<br>";
