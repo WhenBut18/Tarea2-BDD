@@ -26,10 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // AÑADIR VALIDACIONES ANTI INYECCIONES DE CODIGO
     // AÑADIR VALIDACIONES DEL TIPO DE DATO EJEMPLO: MANDE UN TEXT EN VEZ DE UN EMAIL YA QUE MODIFICAARON LA MIERDA DE FRONTEND
-    // AÑADIR VERIFICACION DEL RUT / CORREO NO SE REPITAN EN DB
+    // AÑADIR VERIFICACIONES DE QUE LAS CREDENCIALES NO EXHISTAN
 
     //Esta seccion del codigo se encarga de llamar a la Base de Datos para insertar los nuevos datos de Register
-    // REFORMAR CODIGO PARA AÑADIR EL ROL O CAMBIAR EL TIPO DE INSERT (AUTOR O REVISOR)
     $mysqli = require "databaseConnect.php";
     $sql = "INSERT INTO usuario (RutAut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
             VALUES(?,?,?,?,?,?)";
@@ -53,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Es Autor: " . $row["EsAutor"] . "<br>";
         echo "Es Revisor: " . $row["EsRevisor"] . "<br><br>";
     }
-    
+
 }
 /*
 Añadir header que redireccione al Index debido a que se ingreso sin el metodo correcto
