@@ -26,22 +26,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // AÑADIR VALIDACIONES ANTI INYECCIONES DE CODIGO
     // AÑADIR VALIDACIONES DEL TIPO DE DATO EJEMPLO: MANDE UN TEXT EN VEZ DE UN EMAIL YA QUE MODIFICAARON LA MIERDA DE FRONTEND
-    // AÑADIR VERIFICACIONES DE QUE LAS CREDENCIALES NO EXHISTAN
+    // AÑADIR REQUISITOS DE TAMAÑO DE RUT Y CONTRASEÑA
 
-    //Esta seccion del codigo se encarga de llamar a la Base de Datos para insertar los nuevos datos de Register
+
     $mysqli = require "databaseConnect.php";
-    $sql = "INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
-            VALUES(?,?,?,?,?,?)";
-
-    $stmt = $mysqli->stmt_init();
-    if ( ! $stmt->prepare($sql)){
-        die("SQL error: " . $mysqli->error);
-    }
-    $stmt->bind_param("ssssii", $rutRegister, $nameRegister, $mailRegister, $passwordRegister,$isAutorRegister,$isRevisorRegister);
+    
+    // Aqui se realiza una query a la DB para revisar si el Rut y/o el Correo ya se usaron.
+    $sql = "SELECT CASE WHEN EXISTS (
+                SELECT 1 
+                FROM usuario 
+                WHERE Rut = ? OR Correo = ?
+            ) THEN TRUE ELSE FALSE END AS existe_usuario;";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ss", $rutRegister, $mailRegister);
     $stmt->execute();
-    $stmt->close();
-    echo "Registor exitosos<br><br>";
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
 
+    // Si no existe el usuario realizar el insert en la DB
+    if ($row['existe_usuario']) {
+        echo ("El Rut o el Correo ya están registrados.");
+        echo '<a href="/Tarea2-BDD/PHP/Pages/register.php">Intentar denuevo</a>';
+        exit();
+    } else {
+
+        // Codigo para insertar el usuario a la DB
+        $sql = "INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
+            VALUES(?,?,?,?,?,?)";
+        $stmt = $mysqli->stmt_init();
+        if ( ! $stmt->prepare($sql)){
+            die("SQL error: " . $mysqli->error);
+        }
+        $stmt->bind_param("ssssii", $rutRegister, $nameRegister, $mailRegister, $passwordRegister,$isAutorRegister,$isRevisorRegister);
+        $stmt->execute();
+        $stmt->close();
+    }
     // Codigo Auxiliar para imprimir todos los autores registrados BORRAR DESPUES
     $sql = "SELECT * FROM usuario";
     $result = $mysqli->query($sql);
@@ -55,7 +74,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 }
-/*
-Añadir header que redireccione al Index debido a que se ingreso sin el metodo correcto
-header()
-*/
+header("Location: /Tarea2-BDD/PHP/Pages/index.php");

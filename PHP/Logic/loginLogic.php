@@ -35,21 +35,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result) {
         $row = $result->fetch_assoc();
         $login_valido = $row['login_valido'];
-
         if ($login_valido) {
-            echo "Login exitoso.";
+            session_start();
+            session_regenerate_id();
+            $_SESSION["user_id"] = $rutLogin;
         } else {
             echo "Rut o contraseña incorrectos.";
+            echo '<a href="/Tarea2-BDD/PHP/Pages/login.php">Intentar denuevo</a>';
+            exit();
         }
     } else {
         echo "Error al obtener resultados.";
     }
-
     $stmt->close();
-
 }
-/*
-Añadir header que redireccione al Index debido a que se ingreso sin el metodo correcto
-header()
-*/
+header("Location: /Tarea2-BDD/PHP/Pages/index.php");
 
