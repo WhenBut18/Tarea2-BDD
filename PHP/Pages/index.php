@@ -23,9 +23,10 @@
     Botones de Secciones/funciones de la pagina web
     Desplegar los Botones/Seccioned de la pagina web dependiendo del tipo de usuario Autor/Revisor/JefeRevisor
 -->
-    <h1>TETEO</h1>
-    <?php echo $user["Nombre"]?>
-    <br><br>
-    <a href="/Tarea2-BDD/PHP/Pages/logout.php">cierra sesion</a>
+    <h1>GESCON</h1>
+    <!-- Añadir link a seccion de administrar perfil -->
+    <h5><a href="">Administrar Perfil</a> <a href="/Tarea2-BDD/PHP/Pages/logout.php">Cerrar Sesion</a></h5>
+    <?php echo '<h2>Bienvenido ' . $user["Nombre"] . '<br>Menu de Acciones:<h2>'?>
+    
 </body>
 </html>

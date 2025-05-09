@@ -22,6 +22,7 @@
         <br><br>
         <label for="rolRegister">Roles</label>
         <br>
+        <!-- AÑADIR SISTEMA QUE PERMITA ELEGIR ALMENOS 1 DE LA OPCIONES DE USUARIO -->
         <input name="isAutorRegister" id="isAutorRegister" type="checkbox" value="yes"><label>Autor</label>
         <br>
         <input name="isReviserRegister" id="isReviserRegister" type="checkbox" value="yes"><label>Revisor</label>
