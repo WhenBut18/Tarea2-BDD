@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Mostrar el mensaje de éxito si está disponible
+if (isset($_SESSION["mensaje_exito"])) {
+    echo "<p style='color: green;'>" . htmlspecialchars($_SESSION["mensaje_exito"]) . "</p>";
+    unset($_SESSION["mensaje_exito"]); // Borrar el mensaje de la sesión para que no se repita
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

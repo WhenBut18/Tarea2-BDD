@@ -1,15 +1,22 @@
 <?php 
-    session_start();
-    if ($_SESSION["user_id"] == NULL) {
-        header("Location: /Tarea2-BDD/PHP/Pages/login.php");
-        exit();
-    }
-    $mysqli = require __DIR__ . "/../Logic/databaseConnect.php";
-    $sql = "SELECT * FROM usuario WHERE Rut = {$_SESSION["user_id"]}";
-    $result = $mysqli->query($sql);
-    $user = $result->fetch_assoc();
+session_start();
+
+if ($_SESSION["user_id"] == NULL) {
+    header("Location: /Tarea2-BDD/PHP/Pages/login.php");
+    exit();
+}
+
+$mysqli = require __DIR__ . "/../Logic/databaseConnect.php";
+
+// Usamos $mysqli, no $conn
+$stmt = $mysqli->prepare("SELECT * FROM usuario WHERE Rut = ?");
+$stmt->bind_param("s", $_SESSION["user_id"]);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

@@ -2,7 +2,7 @@
 $host = "localhost";
 $dbname = "gescon";
 $username = "root";
-$password = "";
+$password = ""; 
 
 $mysqli = new mysqli ($host,$username,$password,$dbname);
 
