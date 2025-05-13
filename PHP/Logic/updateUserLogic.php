@@ -7,33 +7,26 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 // Validaciones básicas
-if (empty($_POST["nombre"]) || empty($_POST["rut"]) || empty($_POST["correo"])) {
-    $_SESSION["mensaje_error"] = "Nombre, RUT y correo son obligatorios.";
-    header("Location: /Tarea2-BDD/PHP/Pages/infousuario.php");
+if (empty($_POST["nombre"]) || empty($_POST["correo"])) {
+    $_SESSION["mensaje_error"] = "Nombre y correo son obligatorios.";
+    header("Location: /Tarea2-BDD/PHP/Pages/userInfo.php");
     exit();
 }
 
 // Validar formato de correo
 if (!filter_var($_POST["correo"], FILTER_VALIDATE_EMAIL)) {
     $_SESSION["mensaje_error"] = "El correo no es válido.";
-    header("Location: /Tarea2-BDD/PHP/Pages/infousuario.php");
-    exit();
-}
-
-// Validar que el RUT no haya sido modificado
-if ($_POST["rut"] !== $_SESSION["user_id"]) {
-    $_SESSION["mensaje_error"] = "No puedes cambiar tu RUT.";
-    header("Location: /Tarea2-BDD/PHP/Pages/infousuario.php");
+    header("Location: /Tarea2-BDD/PHP/Pages/userInfo.php");
     exit();
 }
 
 // Datos limpios
 $nombre = trim($_POST["nombre"]);
 $correo = trim($_POST["correo"]);
-$rut = trim($_POST["rut"]);
+$rut = trim($_SESSION["user_id"]);
 $contraseña = trim($_POST["contraseña"] ?? "");
 
-$mysqli = require __DIR__ . "/../Logic/databaseConnect.php";
+$mysqli = require "databaseConnect.php";
 
 // Si se proporcionó contraseña, actualizarla; si no, mantener la anterior
 if (!empty($contraseña)) {
@@ -46,7 +39,7 @@ if (!empty($contraseña)) {
 
 if (!$stmt) {
     $_SESSION["mensaje_error"] = "Error en la base de datos: " . $mysqli->error;
-    header("Location: /Tarea2-BDD/PHP/Pages/infousuario.php");
+    header("Location: /Tarea2-BDD/PHP/Pages/userInfo.php");
     exit();
 }
 
@@ -59,7 +52,7 @@ if ($stmt->execute()) {
 $stmt->close();
 $mysqli->close();
 
-header("Location: /Tarea2-BDD/PHP/Pages/infousuario.php");
+header("Location: /Tarea2-BDD/PHP/Pages/userInfo.php");
 exit();
 ?>
 

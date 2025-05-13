@@ -38,7 +38,7 @@ if (isset($_SESSION["mensaje_exito"])) {
     <h2>Mi Perfil</h2> <a href="index.php"><button>Volver al Inicio</button></a><br><br>
 
     
-    <form action="actualizar.php" method="POST">
+    <form action="/Tarea2-BDD/PHP/Logic/updateUserLogic.php" method="POST">
         <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" value="<?= htmlspecialchars($user['Nombre']) ?>" required><br><br>
 
@@ -55,7 +55,7 @@ if (isset($_SESSION["mensaje_exito"])) {
 
     <hr>
 
-    <form action="eliminar.php" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no se puede deshacer.');">
+    <form action="/Tarea2-BDD/PHP/Logic/deleteUserLogic.php" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no se puede deshacer.');">
         <button type="submit" style="color: red;">Eliminar cuenta</button>
     </form>
 

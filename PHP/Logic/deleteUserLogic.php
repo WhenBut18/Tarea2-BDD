@@ -1,6 +1,6 @@
 <?php
 session_start();
-$mysqli = require __DIR__ . "/../Logic/databaseConnect.php";
+$mysqli = require "databaseConnect.php";
 
 // Obtener el RUT del usuario desde la sesión
 $rut = $_SESSION["user_id"];
