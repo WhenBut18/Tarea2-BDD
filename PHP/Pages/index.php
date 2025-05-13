@@ -32,9 +32,9 @@ $user = $result->fetch_assoc();
 -->
     <h1>GESCON</h1>
     <!-- Añadir link a seccion de administrar perfil -->
-    <h5><a href="">Administrar Perfil</a> <a href="/Tarea2-BDD/PHP/Pages/logout.php">Cerrar Sesion</a></h5>
+    <h5><a href="/Tarea2-BDD/PHP/Pages/userInfo.php"><button>Administrar Perfil</button></a> <a href="/Tarea2-BDD/PHP/Pages/logout.php"><button>Cerrar Sesion</button></a></h5>
 
     <?php echo '<h2>Bienvenido ' . $user["Nombre"] . '<br>Menu de Acciones:<h2>'?>
-    
+    <H4><a href="/Tarea2-BDD/PHP/Pages/createArticle.php"><button>Crear Articulo</button></a></H4>
 </body>
 </html>

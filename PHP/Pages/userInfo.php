@@ -35,21 +35,20 @@ if (isset($_SESSION["mensaje_exito"])) {
     <title>Información de Usuario</title>
 </head>
 <body>
-    <h2>Mi Perfil</h2> <a href="index.php"><button>Volver al Inicio</button></a>
+    <h2>Mi Perfil</h2> <a href="index.php"><button>Volver al Inicio</button></a><br><br>
 
     
     <form action="actualizar.php" method="POST">
         <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" value="<?= htmlspecialchars($user['Nombre']) ?>" required><br>
+        <input type="text" name="nombre" value="<?= htmlspecialchars($user['Nombre']) ?>" required><br><br>
 
-        <label for="rut">Rut:</label>
-        <input type="text" name="rut" value="<?= htmlspecialchars($user['Rut']) ?>" required><br>
+        <label for="rut">Rut: <?= htmlspecialchars($user['Rut']) ?></label><br><br>
 
         <label for="correo">Correo:</label>
-        <input type="email" name="correo" value="<?= htmlspecialchars($user['Correo']) ?>" required><br>
+        <input type="email" name="correo" value="<?= htmlspecialchars($user['Correo']) ?>" required><br><br>
 
         <label for="contraseña">Contraseña:</label>
-        <input type="contraseña" name="contraseña" value="<?= htmlspecialchars($user['Contraseña']) ?>" required><br>
+        <input type="contraseña" name="contraseña" value="<?= htmlspecialchars($user['Contraseña']) ?>" required><br><br>
 
         <button type="submit">Guardar cambios</button>
     </form>
