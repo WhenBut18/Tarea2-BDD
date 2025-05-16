@@ -1,37 +1,34 @@
 <?php
 
-// Revisa si se accedio con el metodo POST
+// Revisa si se accedió con el método POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Registra en variables los valores recibidos por el formulario
-    $passwordRegister = $_POST["passwordRegister"];
-    $mailRegister = $_POST["mailRegister"];
-    $nameRegister = $_POST["nameRegister"];
-    $rutRegister = $_POST["rutRegister"];
-    if ($_POST["isAutorRegister"] == "yes"){
-        $isAutorRegister = 1;
-    } else {
-        $isAutorRegister = 0;
-    }
-    if ($_POST["isReviserRegister"] == "yes"){
-        $isRevisorRegister = 1;
-    } else {
-        $isRevisorRegister = 0;
-    }
+    $passwordRegister = $_POST["passwordRegister"] ?? null;
+    $mailRegister = $_POST["mailRegister"] ?? null;
+    $nameRegister = $_POST["nameRegister"] ?? null;
+    $rutRegister = $_POST["rutRegister"] ?? null;
 
-    // Revisa si algun dato del formulacion esta NULL
-    if ($passwordRegister == NULL or $mailRegister == NULL or $rutRegister == NULL or $nameRegister == NULL) {
+    $isAutorRegister = ($_POST["isAutorRegister"] ?? null) === "yes" ? 1 : 0;
+    $isRevisorRegister = ($_POST["isReviserRegister"] ?? null) === "yes" ? 1 : 0;
+
+    // Validación de campos vacíos
+    if ($passwordRegister == null || $mailRegister == null || $rutRegister == null || $nameRegister == null) {
         header("Location: /Tarea2-BDD/PHP/Pages/register.php");
         exit();
     }
-    // AÑADIR VALIDACIONES ANTI INYECCIONES DE CODIGO
-    // AÑADIR VALIDACIONES DEL TIPO DE DATO EJEMPLO: MANDE UN TEXT EN VEZ DE UN EMAIL YA QUE MODIFICAARON LA MIERDA DE FRONTEND
-    // AÑADIR REQUISITOS DE TAMAÑO DE RUT Y CONTRASEÑA
 
+    // Validación de formato de RUT (ejemplo: 12345678-9 o 12345678-k)
+    if (!preg_match("/^\d{7,8}-[\dkK]$/", $rutRegister)) {
+        echo "El RUT ingresado no tiene un formato válido. Debe ser como '12345678-9'.";
+        echo '<br><a href="/Tarea2-BDD/PHP/Pages/register.php">Volver al registro</a>';
+        exit();
+    }
 
+    // Conexión a la base de datos
     $mysqli = require "databaseConnect.php";
-    
-    // Aqui se realiza una query a la DB para revisar si el Rut y/o el Correo ya se usaron.
+
+    // Verificar si ya existe usuario con mismo RUT o correo
     $sql = "SELECT CASE WHEN EXISTS (
                 SELECT 1 
                 FROM usuario 
@@ -43,35 +40,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
 
-    // Si no existe el usuario realizar el insert en la DB
     if ($row['existe_usuario']) {
-        echo ("El Rut o el Correo ya están registrados.");
-        echo '<a href="/Tarea2-BDD/PHP/Pages/register.php">Intentar denuevo</a>';
+        echo "El Rut o el Correo ya están registrados.";
+        echo '<br><a href="/Tarea2-BDD/PHP/Pages/register.php">Intentar de nuevo</a>';
         exit();
     } else {
-
-        // Codigo para insertar el usuario a la DB
+        // Insertar nuevo usuario
         $sql = "INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
-            VALUES(?,?,?,?,?,?)";
-        $stmt = $mysqli->stmt_init();
-        if ( ! $stmt->prepare($sql)){
-            die("SQL error: " . $mysqli->error);
+                VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $mysqli->prepare($sql);
+        if (!$stmt) {
+            die("Error en la preparación: " . $mysqli->error);
         }
-        $stmt->bind_param("ssssii", $rutRegister, $nameRegister, $mailRegister, $passwordRegister,$isAutorRegister,$isRevisorRegister);
+        $stmt->bind_param("ssssii", $rutRegister, $nameRegister, $mailRegister, $passwordRegister, $isAutorRegister, $isRevisorRegister);
         $stmt->execute();
         $stmt->close();
-    }
-    // Codigo Auxiliar para imprimir todos los autores registrados BORRAR DESPUES
-    $sql = "SELECT * FROM usuario";
-    $result = $mysqli->query($sql);
-    while ($row = $result->fetch_assoc()) {
-        echo "Rut: " . $row["Rut"] . "<br>";
-        echo "Nombre: " . $row["Nombre"] . "<br>";
-        echo "Contraseña: " . $row["Contraseña"] . "<br>";
-        echo "Correo: " . $row["Correo"] . "<br>";
-        echo "Es Autor: " . $row["EsAutor"] . "<br>";
-        echo "Es Revisor: " . $row["EsRevisor"] . "<br><br>";
+
+        // Si es revisor, insertar los tópicos seleccionados
+        if ($isRevisorRegister && isset($_POST["topicosSeleccionados"])) {
+            $topicosSeleccionados = $_POST["topicosSeleccionados"];
+            foreach ($topicosSeleccionados as $idTopico) {
+                $sql = "INSERT INTO topicosRevisores (IDTopico, RutRev) VALUES (?, ?)";
+                $stmt = $mysqli->prepare($sql);
+                $stmt->bind_param("is", $idTopico, $rutRegister);
+                $stmt->execute();
+                $stmt->close();
+            }
+        }
     }
 
+    // Redirigir al inicio tras registrar
+    header("Location: /Tarea2-BDD/PHP/Pages/index.php");
+    exit();
 }
-header("Location: /Tarea2-BDD/PHP/Pages/index.php");
