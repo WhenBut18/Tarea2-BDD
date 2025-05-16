@@ -5,13 +5,16 @@
         exit();
     }
     $mysqli = require __DIR__ . "/../Logic/databaseConnect.php";
-    $sql = "SELECT * FROM usuario WHERE Rut = {$_SESSION["user_id"]}";
-    $result = $mysqli->query($sql);
+    $rut = $_SESSION["user_id"];
+    $stmt = $mysqli->prepare("SELECT * FROM usuario WHERE Rut = ?");
+    $stmt->bind_param("s", $rut);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $user = $result->fetch_assoc();
-    if ($user["EsAutor"] == false) {
-        header("Location: /Tarea2-BDD/PHP/Pages/index.php");
+    if ($user["EsAutor"] == false ){
+        header("Location: /Tarea2-BDD/PHP/Pages/login.php");
         exit();
-    }
+    }  
     $sql = "SELECT * FROM topicos";
     $result = $mysqli->query($sql);
     $topicos = [];

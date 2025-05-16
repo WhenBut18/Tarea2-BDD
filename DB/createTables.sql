@@ -127,3 +127,15 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+CREATE VIEW vista_articulos_autor AS
+SELECT 
+    a.IDArticulo,
+    a.Titulo,
+    a.FechaEnvio,
+    a.Resumen,
+    aa.RutAut,
+    aa.EsContacto
+FROM articulos a
+JOIN autoresArticulos aa ON a.IDArticulo = aa.IDArticulo;
+
