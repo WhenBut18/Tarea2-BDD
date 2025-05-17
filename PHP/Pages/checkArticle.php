@@ -26,27 +26,28 @@
 <html>
 <head><title>Mis Artículos</title></head>
 <body>
-<h2>Mis Artículos</h2>
-<table border="1">
-    <tr>
-        <th>ID</th><th>Título</th><th>Fecha Envío</th><th>Resumen</th><th>Acciones</th>
-    </tr>
-    <?php while ($row = $result->fetch_assoc()): ?>
+    <h5><a href="/Tarea2-BDD/PHP/Pages/index.php"><button>Volver al Menu Principal</button></a></h5>
+    <h2>Mis Artículos</h2>
+    <table border="1">
         <tr>
-            <td><?= $row["IDArticulo"] ?></td>
-            <td><?= htmlspecialchars($row["Titulo"]) ?></td>
-            <td><?= $row["FechaEnvio"] ?></td>
-            <td><?= htmlspecialchars($row["Resumen"]) ?></td>
-            <td>
-                <?php if ($row["EsContacto"]): ?>
-                    <a href="editArticle.php?id=<?= $row["IDArticulo"] ?>"><button>Editar</button></a> | 
-                    <a href="deleteArticle.php?id=<?= $row["IDArticulo"] ?>" onclick="return confirm('¿Estás seguro de eliminar este artículo?')"><button>Eliminar</button></a>
-                <?php else: ?>
-                    (No autorizado)
-                <?php endif; ?>
-            </td>
+            <th>ID</th><th>Título</th><th>Fecha Envío</th><th>Resumen</th><th>Acciones</th>
         </tr>
-    <?php endwhile; ?>
-</table>
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td><?= $row["IDArticulo"] ?></td>
+                <td><?= htmlspecialchars($row["Titulo"]) ?></td>
+                <td><?= $row["FechaEnvio"] ?></td>
+                <td><?= htmlspecialchars($row["Resumen"]) ?></td>
+                <td>
+                    <?php if ($row["EsContacto"]): ?>
+                        <a href="editArticle.php?id=<?= $row["IDArticulo"] ?>"><button>Editar</button></a> | 
+                        <a href="deleteArticle.php?id=<?= $row["IDArticulo"] ?>" onclick="return confirm('¿Estás seguro de eliminar este artículo?')"><button>Eliminar</button></a>
+                    <?php else: ?>
+                        (No autorizado)
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+    </table>
 </body>
 </html>

@@ -18,7 +18,7 @@
     <script>
         function validarFormulario(e) {
             const autor = document.getElementById('isAutorRegister').checked;
-            const revisor = document.getElementById('isReviserRegister').checked;
+            const revisor = document.getElementById('isRevisorRegister').checked;
 
             if (!autor && !revisor) {
                 e.preventDefault();
@@ -37,13 +37,13 @@
         }
 
         function toggleTopicos() {
-            const revisorChecked = document.getElementById('isReviserRegister').checked;
+            const revisorChecked = document.getElementById('isRevisorRegister').checked;
             const topicosDiv = document.getElementById('topicosRevisor');
             topicosDiv.style.display = revisorChecked ? 'block' : 'none';
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('isReviserRegister').addEventListener('change', toggleTopicos);
+            document.getElementById('isRevisorRegister').addEventListener('change', toggleTopicos);
             document.getElementById('registroForm').addEventListener('submit', validarFormulario);
             toggleTopicos(); // Mostrar u ocultar tópicos al cargar
         });
@@ -72,8 +72,8 @@
         <input name="isAutorRegister" id="isAutorRegister" type="checkbox" value="yes">
         <label for="isAutorRegister">Autor</label><br>
 
-        <input name="isReviserRegister" id="isReviserRegister" type="checkbox" value="yes">
-        <label for="isReviserRegister">Revisor</label>
+        <input name="isRevisorRegister" id="isRevisorRegister" type="checkbox" value="yes">
+        <label for="isRevisorRegister">Revisor</label>
         <br><br>
 
         <div id="topicosRevisor" style="display:none; border:1px solid #ccc; padding:10px;">

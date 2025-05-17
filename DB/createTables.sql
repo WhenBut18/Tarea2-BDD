@@ -139,3 +139,51 @@ SELECT
 FROM articulos a
 JOIN autoresArticulos aa ON a.IDArticulo = aa.IDArticulo;
 
+CREATE VIEW vista_admin_articulos_ordenada AS
+SELECT 
+    a.IDArticulo,
+    a.Titulo,
+    GROUP_CONCAT(DISTINCT t.NombreTopico ORDER BY t.NombreTopico SEPARATOR '<br>') AS Topicos,
+    GROUP_CONCAT(DISTINCT au.Nombre ORDER BY au.Nombre SEPARATOR '<br>') AS Autores,
+    GROUP_CONCAT(DISTINCT rev.Nombre ORDER BY rev.Nombre SEPARATOR '<br>') AS Revisores,
+    COUNT(DISTINCT r.RutRev) AS CantRevisores
+FROM articulos a
+LEFT JOIN topicosArticulos ta ON a.IDArticulo = ta.IDArticulo
+LEFT JOIN topicos t ON ta.IDTopico = t.IDTopico
+LEFT JOIN autoresArticulos aa ON a.IDArticulo = aa.IDArticulo
+LEFT JOIN usuario au ON aa.RutAut = au.Rut
+LEFT JOIN revisiones r ON a.IDArticulo = r.IDArticulo
+LEFT JOIN usuario rev ON r.RutRev = rev.Rut
+GROUP BY a.IDArticulo, a.Titulo
+ORDER BY CantRevisores ASC, a.IDArticulo ASC;
+
+CREATE OR REPLACE VIEW vista_revisores_info AS
+SELECT 
+    u.Rut,
+    u.Nombre,
+    GROUP_CONCAT(DISTINCT t.NombreTopico ORDER BY t.NombreTopico SEPARATOR ', ') AS Especialidades,
+    COUNT(DISTINCT r.IDArticulo) AS TotalAsignados,
+    GROUP_CONCAT(DISTINCT a.Titulo ORDER BY a.Titulo SEPARATOR ', ') AS ArticulosAsignados
+FROM usuario u
+JOIN topicosRevisores tr ON u.Rut = tr.RutRev
+JOIN topicos t ON tr.IDTopico = t.IDTopico
+LEFT JOIN revisiones r ON u.Rut = r.RutRev
+LEFT JOIN articulos a ON r.IDArticulo = a.IDArticulo
+WHERE u.EsRevisor = 1
+GROUP BY u.Rut, u.Nombre;
+
+CREATE OR REPLACE VIEW vista_revisores_asignados AS
+SELECT 
+    r.IDArticulo,
+    u.Rut AS RutRevisor,
+    u.Nombre AS NombreRevisor,
+    GROUP_CONCAT(DISTINCT tr2.NombreTopico ORDER BY tr2.NombreTopico SEPARATOR ', ') AS TopicosRevisor,
+    GROUP_CONCAT(DISTINCT a2.Titulo ORDER BY a2.IDArticulo SEPARATOR ', ') AS ArticulosAsignados
+FROM revisiones r
+JOIN usuario u ON r.RutRev = u.Rut
+LEFT JOIN topicosRevisores tr ON tr.RutRev = u.Rut
+LEFT JOIN topicos tr2 ON tr.IDTopico = tr2.IDTopico
+LEFT JOIN revisiones r2 ON u.Rut = r2.RutRev
+LEFT JOIN articulos a2 ON a2.IDArticulo = r2.IDArticulo
+GROUP BY r.IDArticulo, u.Rut, u.Nombre;
+
