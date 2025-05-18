@@ -1,4 +1,5 @@
--- Tabla de Usuarios (Autores y Revisores)
+-- Tablas (sin cambios, no necesitan delimiters especiales)
+
 CREATE TABLE usuario (
     Rut VARCHAR(12) PRIMARY KEY,
     Nombre VARCHAR(50) NOT NULL,
@@ -8,7 +9,6 @@ CREATE TABLE usuario (
     EsRevisor BOOLEAN DEFAULT FALSE
 );
 
--- Tabla de Artículos
 CREATE TABLE articulos (
     IDArticulo INT PRIMARY KEY AUTO_INCREMENT,
     Titulo VARCHAR(50) NOT NULL,
@@ -17,13 +17,11 @@ CREATE TABLE articulos (
     EnRevision BOOLEAN DEFAULT FALSE
 );
 
--- Tabla de Tópicos
 CREATE TABLE topicos (
     IDTopico INT PRIMARY KEY AUTO_INCREMENT,
     NombreTopico VARCHAR(50) NOT NULL UNIQUE
 );
 
--- Tabla de Revisiones (intermedia)
 CREATE TABLE revisiones (
     IDArticulo INT,
     RutRev VARCHAR(12),
@@ -37,7 +35,6 @@ CREATE TABLE revisiones (
     CONSTRAINT FK_revisiones_RutRev FOREIGN KEY (RutRev) REFERENCES usuario(Rut) ON DELETE CASCADE
 );
 
--- Tabla de Tópicos de Revisores
 CREATE TABLE topicosRevisores (
     IDTopico INT,
     RutRev VARCHAR(12),
@@ -46,7 +43,6 @@ CREATE TABLE topicosRevisores (
     CONSTRAINT FK_topicosRevisores_RutRev FOREIGN KEY (RutRev) REFERENCES usuario(Rut) ON DELETE CASCADE
 );
 
--- Tabla de Tópicos de Artículos
 CREATE TABLE topicosArticulos (
     IDTopico INT,
     IDArticulo INT,
@@ -55,7 +51,6 @@ CREATE TABLE topicosArticulos (
     CONSTRAINT FK_topicosArticulos_IDArticulo FOREIGN KEY (IDArticulo) REFERENCES articulos(IDArticulo) ON DELETE CASCADE
 );
 
--- Tabla de Autores-Artículos (relación N:M con autor de contacto)
 CREATE TABLE autoresArticulos (
     IDArticulo INT,
     RutAut VARCHAR(12),
@@ -68,6 +63,8 @@ CREATE TABLE autoresArticulos (
 INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
 VALUES ('admin', 'admin', 'admin@gescon.com', 'admin', FALSE, FALSE);
 
+-- Cambiamos delimitador para crear funciones y procedimientos
+DELIMITER $$
 
 CREATE FUNCTION split_string_index(
     str TEXT,
@@ -83,9 +80,9 @@ END$$
 CREATE PROCEDURE crear_articulo(
     IN p_titulo VARCHAR(50),
     IN p_resumen VARCHAR(150),
-    IN p_ruts_autores TEXT,       -- Ej: '11111111-1,22222222-2'
-    IN p_topicos TEXT,            -- Ej: '3,5'
-    IN p_rut_contacto VARCHAR(12) -- Ej: '11111111-1'
+    IN p_ruts_autores TEXT,
+    IN p_topicos TEXT,
+    IN p_rut_contacto VARCHAR(12)
 )
 BEGIN
     DECLARE v_id_articulo INT;
@@ -95,18 +92,14 @@ BEGIN
     DECLARE rut_actual VARCHAR(12);
     DECLARE topico_actual INT;
 
-    -- Insertar artículo
     INSERT INTO articulos (Titulo, FechaEnvio, Resumen)
     VALUES (p_titulo, CURDATE(), p_resumen);
 
-    -- Obtener ID autogenerado
     SET v_id_articulo = LAST_INSERT_ID();
 
-    -- Contar autores y tópicos
     SET v_total_autores = LENGTH(p_ruts_autores) - LENGTH(REPLACE(p_ruts_autores, ',', '')) + 1;
     SET v_total_topicos = LENGTH(p_topicos) - LENGTH(REPLACE(p_topicos, ',', '')) + 1;
 
-    -- Insertar autores con marca de contacto
     SET i = 1;
     WHILE i <= v_total_autores DO
         SET rut_actual = split_string_index(p_ruts_autores, ',', i);
@@ -119,7 +112,6 @@ BEGIN
         SET i = i + 1;
     END WHILE;
 
-    -- Insertar tópicos
     SET i = 1;
     WHILE i <= v_total_topicos DO
         SET topico_actual = CAST(split_string_index(p_topicos, ',', i) AS UNSIGNED);
@@ -128,6 +120,10 @@ BEGIN
         SET i = i + 1;
     END WHILE;
 END$$
+
+-- Vistas no necesitan delimiters especiales, se pueden crear con ; normal
+
+DELIMITER ;
 
 CREATE VIEW vista_articulos_autor AS
 SELECT 
@@ -157,8 +153,6 @@ LEFT JOIN revisiones r ON a.IDArticulo = r.IDArticulo
 LEFT JOIN usuario rev ON r.RutRev = rev.Rut
 GROUP BY a.IDArticulo, a.Titulo
 ORDER BY CantRevisores ASC, a.IDArticulo ASC;
-
-
 
 CREATE OR REPLACE VIEW vista_revisores_info AS
 SELECT 
@@ -190,6 +184,10 @@ LEFT JOIN revisiones r2 ON u.Rut = r2.RutRev
 LEFT JOIN articulos a2 ON a2.IDArticulo = r2.IDArticulo
 GROUP BY r.IDArticulo, u.Rut, u.Nombre;
 
+-- Triggers deben usar delimiters $$ también
+
+DELIMITER $$
+
 CREATE TRIGGER triggerRevisionInsert
 AFTER INSERT ON revisiones
 FOR EACH ROW
@@ -197,7 +195,7 @@ BEGIN
     UPDATE articulos
     SET EnRevision = TRUE
     WHERE IDArticulo = NEW.IDArticulo;
-END;
+END$$
 
 CREATE TRIGGER triggerRevisionDelete
 AFTER DELETE ON revisiones
@@ -214,4 +212,6 @@ BEGIN
         SET EnRevision = FALSE
         WHERE IDArticulo = OLD.IDArticulo;
     END IF;
-END;
+END$$
+
+DELIMITER ;
