@@ -40,8 +40,12 @@
                 <td><?= htmlspecialchars($row["Resumen"]) ?></td>
                 <td>
                     <?php if ($row["EsContacto"]): ?>
-                        <a href="editArticle.php?id=<?= $row["IDArticulo"] ?>"><button>Editar</button></a> | 
-                        <a href="deleteArticle.php?id=<?= $row["IDArticulo"] ?>" onclick="return confirm('¿Estás seguro de eliminar este artículo?')"><button>Eliminar</button></a>
+                        <?php if (!$row["EnRevision"]): ?>
+                            <a href="editArticle.php?id=<?= $row["IDArticulo"] ?>"><button>Editar</button></a> | 
+                            <a href="deleteArticle.php?id=<?= $row["IDArticulo"] ?>" onclick="return confirm('¿Estás seguro de eliminar este artículo?')"><button>Eliminar</button></a>
+                        <?php else: ?>
+                            En revisión (no editable)
+                        <?php endif; ?>
                     <?php else: ?>
                         (No autorizado)
                     <?php endif; ?>

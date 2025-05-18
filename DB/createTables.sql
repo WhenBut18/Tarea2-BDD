@@ -125,16 +125,18 @@ END$$
 
 DELIMITER ;
 
-CREATE VIEW vista_articulos_autor AS
+CREATE OR REPLACE VIEW vista_articulos_autor AS
 SELECT 
     a.IDArticulo,
     a.Titulo,
     a.FechaEnvio,
     a.Resumen,
+    a.EnRevision,
     aa.RutAut,
     aa.EsContacto
 FROM articulos a
 JOIN autoresArticulos aa ON a.IDArticulo = aa.IDArticulo;
+
 
 CREATE VIEW vista_admin_articulos_ordenada AS
 SELECT 
