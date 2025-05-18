@@ -68,7 +68,7 @@ CREATE TABLE autoresArticulos (
 INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
 VALUES ('admin', 'admin', 'admin@gescon.com', 'admin', FALSE, FALSE);
 
-DELIMITER $$
+
 CREATE FUNCTION split_string_index(
     str TEXT,
     delim CHAR(1),
@@ -79,9 +79,7 @@ DETERMINISTIC
 BEGIN
     RETURN REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(str, delim, pos), delim, -1), ' ', '');
 END$$
-DELIMITER ;
 
-DELIMITER $$
 CREATE PROCEDURE crear_articulo(
     IN p_titulo VARCHAR(50),
     IN p_resumen VARCHAR(150),
@@ -130,9 +128,7 @@ BEGIN
         SET i = i + 1;
     END WHILE;
 END$$
-DELIMITER ;
 
-DELIMITER $$
 CREATE VIEW vista_articulos_autor AS
 SELECT 
     a.IDArticulo,
@@ -143,9 +139,7 @@ SELECT
     aa.EsContacto
 FROM articulos a
 JOIN autoresArticulos aa ON a.IDArticulo = aa.IDArticulo;
-DELIMITER ;
 
-DELIMITER $$
 CREATE VIEW vista_admin_articulos_ordenada AS
 SELECT 
     a.IDArticulo,
@@ -163,9 +157,9 @@ LEFT JOIN revisiones r ON a.IDArticulo = r.IDArticulo
 LEFT JOIN usuario rev ON r.RutRev = rev.Rut
 GROUP BY a.IDArticulo, a.Titulo
 ORDER BY CantRevisores ASC, a.IDArticulo ASC;
-DELIMITER ;
 
-DELIMITER $$
+
+
 CREATE OR REPLACE VIEW vista_revisores_info AS
 SELECT 
     u.Rut,
@@ -180,9 +174,7 @@ LEFT JOIN revisiones r ON u.Rut = r.RutRev
 LEFT JOIN articulos a ON r.IDArticulo = a.IDArticulo
 WHERE u.EsRevisor = 1
 GROUP BY u.Rut, u.Nombre;
-DELIMITER ;
 
-DELIMITER $$
 CREATE OR REPLACE VIEW vista_revisores_asignados AS
 SELECT 
     r.IDArticulo,
@@ -197,9 +189,7 @@ LEFT JOIN topicos tr2 ON tr.IDTopico = tr2.IDTopico
 LEFT JOIN revisiones r2 ON u.Rut = r2.RutRev
 LEFT JOIN articulos a2 ON a2.IDArticulo = r2.IDArticulo
 GROUP BY r.IDArticulo, u.Rut, u.Nombre;
-DELIMITER ;
 
-DELIMITER $$
 CREATE TRIGGER triggerRevisionInsert
 AFTER INSERT ON revisiones
 FOR EACH ROW
@@ -208,9 +198,7 @@ BEGIN
     SET EnRevision = TRUE
     WHERE IDArticulo = NEW.IDArticulo;
 END;
-DELIMITER ;
 
-DELIMITER $$
 CREATE TRIGGER triggerRevisionDelete
 AFTER DELETE ON revisiones
 FOR EACH ROW
@@ -227,4 +215,3 @@ BEGIN
         WHERE IDArticulo = OLD.IDArticulo;
     END IF;
 END;
-DELIMITER ;

@@ -39,5 +39,6 @@ $user = $result->fetch_assoc();
     <H4><a href="/Tarea2-BDD/PHP/Pages/checkArticle.php"><button>Revisar Articulos</button></a></H4><br>
     <H4><a href="/Tarea2-BDD/PHP/Pages/articleReviewer.php"><button>Asignar Revisores a Articulos</button></a></H4><br>
     <H4><a href="/Tarea2-BDD/PHP/Pages/reviewerManagement.php"><button>Gestionar Revisores</button></a></H4><br>
+    <H4><a href="/Tarea2-BDD/PHP/Pages/reviewArticle.php"><button>Revisar Articulo</button></a></H4><br>
 </body>
 </html> 
