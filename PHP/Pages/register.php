@@ -56,7 +56,7 @@
         <input required name="nameRegister" id="nameRegister" type="text" placeholder="Ingrese su nombre completo..">
         <br><br>
 
-        <label for="rutRegister">RUT (Sin puntos ni guion)</label>
+        <label for="rutRegister">RUT (Ejemplo 12345678-9)</label>
         <input required name="rutRegister" id="rutRegister" type="text" placeholder="Ingrese su rut..">
         <br><br>
 
@@ -64,7 +64,7 @@
         <input required id="mailRegister" name="mailRegister" type="email" placeholder="Ingrese su correo..">
         <br><br>
 
-        <label for="passwordRegister">Contraseña</label>
+        <label for="passwordRegister">Contraseña (Minimo 8 caracteres)</label>
         <input required name="passwordRegister" id="passwordRegister" type="password" placeholder="Ingrese su contraseña..">
         <br><br>
 

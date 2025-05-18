@@ -1,10 +1,9 @@
 <?php
 session_start();
-/*
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] !== "ADMIN") {
+if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] !== "admin") {
     header("Location: /Tarea2-BDD/PHP/Pages/login.php");
     exit();
-}*/
+}
 
 if (!isset($_GET["id"])) {
     echo "ID del artículo no especificado.";
@@ -59,6 +58,6 @@ if ($result->num_rows === 0) {
     <?php endwhile; ?>
 </table>
 <br>
-<a href="articleReviewer.php"><button>Volver al dashboard</button></a>
+<a href="articleReviewer.php"><button>Volver</button></a>
 </body>
 </html>

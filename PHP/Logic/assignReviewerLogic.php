@@ -1,10 +1,9 @@
 <?php
 session_start();
-/*
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] !== "ADMIN") {
+if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] !== "admin") {
     header("Location: /Tarea2-BDD/PHP/Pages/login.php");
     exit();
-}*/
+}
 
 if (!isset($_POST["idArticulo"]) || !isset($_POST["rutRevisor"])) {
     echo "Faltan datos para asignar revisor.";

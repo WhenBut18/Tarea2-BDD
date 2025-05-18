@@ -13,7 +13,8 @@ CREATE TABLE articulos (
     IDArticulo INT PRIMARY KEY AUTO_INCREMENT,
     Titulo VARCHAR(50) NOT NULL,
     FechaEnvio DATE NOT NULL,
-    Resumen VARCHAR(150) NOT NULL
+    Resumen VARCHAR(150) NOT NULL,
+    EnRevision BOOLEAN DEFAULT FALSE
 );
 
 -- Tabla de Tópicos
@@ -26,6 +27,11 @@ CREATE TABLE topicos (
 CREATE TABLE revisiones (
     IDArticulo INT,
     RutRev VARCHAR(12),
+    CalidadTecnica INT,
+    Originalidad INT,
+    ValoracionGlobal INT,
+    ArgumentosValoracion VARCHAR(256),
+    ComentariosRevisor VARCHAR(256),
     CONSTRAINT PK_revisiones PRIMARY KEY (IDArticulo, RutRev),
     CONSTRAINT FK_revisiones_IDArticulo FOREIGN KEY (IDArticulo) REFERENCES articulos(IDArticulo) ON DELETE CASCADE,
     CONSTRAINT FK_revisiones_RutRev FOREIGN KEY (RutRev) REFERENCES usuario(Rut) ON DELETE CASCADE
@@ -59,7 +65,8 @@ CREATE TABLE autoresArticulos (
     CONSTRAINT FK_autoresArticulos_RutAut FOREIGN KEY (RutAut) REFERENCES usuario(Rut) ON DELETE CASCADE
 );
 
-DELIMITER $$
+INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
+VALUES ('admin', 'admin', 'admin@gescon.com', 'admin', FALSE, FALSE);
 
 CREATE FUNCTION split_string_index(
     str TEXT,
@@ -71,10 +78,6 @@ DETERMINISTIC
 BEGIN
     RETURN REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(str, delim, pos), delim, -1), ' ', '');
 END$$
-
-DELIMITER ;
-
-DELIMITER $$
 
 CREATE PROCEDURE crear_articulo(
     IN p_titulo VARCHAR(50),
@@ -125,8 +128,6 @@ BEGIN
     END WHILE;
 
 END$$
-
-DELIMITER ;
 
 CREATE VIEW vista_articulos_autor AS
 SELECT 
@@ -187,3 +188,28 @@ LEFT JOIN revisiones r2 ON u.Rut = r2.RutRev
 LEFT JOIN articulos a2 ON a2.IDArticulo = r2.IDArticulo
 GROUP BY r.IDArticulo, u.Rut, u.Nombre;
 
+CREATE TRIGGER triggerRevisionInsert
+AFTER INSERT ON revisiones
+FOR EACH ROW
+BEGIN
+    UPDATE articulos
+    SET EnRevision = TRUE
+    WHERE IDArticulo = NEW.IDArticulo;
+END;
+
+CREATE TRIGGER triggerRevisionDelete
+AFTER DELETE ON revisiones
+FOR EACH ROW
+BEGIN
+    DECLARE total INT;
+
+    SELECT COUNT(*) INTO total
+    FROM revisiones
+    WHERE IDArticulo = OLD.IDArticulo;
+
+    IF total = 0 THEN
+        UPDATE articulos
+        SET EnRevision = FALSE
+        WHERE IDArticulo = OLD.IDArticulo;
+    END IF;
+END;
