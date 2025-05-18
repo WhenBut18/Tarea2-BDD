@@ -47,5 +47,6 @@ $user = $result->fetch_assoc();
     <H4><a href="/Tarea2-BDD/PHP/Pages/articleReviewer.php"><button>Asignar Revisores a Articulos</button></a></H4>
     <H4><a href="/Tarea2-BDD/PHP/Pages/reviewerManagement.php"><button>Gestionar Revisores</button></a></H4>
     <?php }?>
+    <a href="/Tarea2-BDD/PHP/Pages/evaluatedArticles.php"><button>Ver Artículos Evaluados</button></a>
 </body>
 </html> 

@@ -215,3 +215,29 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+CREATE OR REPLACE VIEW vista_articulos_evaluados AS
+SELECT 
+    a.IDArticulo,
+    a.Titulo,
+    a.Resumen,
+    GROUP_CONCAT(DISTINCT t.NombreTopico SEPARATOR ', ') AS Topicos,
+    GROUP_CONCAT(DISTINCT u.Nombre SEPARATOR ', ') AS Autores,
+    ROUND(AVG(r.ValoracionGlobal)) AS ValoracionGlobal
+FROM articulos a
+JOIN revisiones r ON a.IDArticulo = r.IDArticulo
+JOIN autoresArticulos aa ON a.IDArticulo = aa.IDArticulo
+JOIN usuario u ON aa.RutAut = u.Rut
+JOIN topicosArticulos ta ON a.IDArticulo = ta.IDArticulo
+JOIN topicos t ON ta.IDTopico = t.IDTopico
+WHERE a.IDArticulo NOT IN (
+    SELECT IDArticulo
+    FROM revisiones
+    WHERE ValoracionGlobal IS NULL 
+       OR CalidadTecnica IS NULL
+       OR Originalidad IS NULL
+       OR ArgumentosValoracion IS NULL
+       OR ComentariosRevisor IS NULL
+)
+GROUP BY a.IDArticulo;
+
