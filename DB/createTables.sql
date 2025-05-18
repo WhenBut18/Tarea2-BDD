@@ -27,11 +27,11 @@ CREATE TABLE topicos (
 CREATE TABLE revisiones (
     IDArticulo INT,
     RutRev VARCHAR(12),
-    CalidadTecnica INT,
-    Originalidad INT,
-    ValoracionGlobal INT,
-    ArgumentosValoracion VARCHAR(256),
-    ComentariosRevisor VARCHAR(256),
+    CalidadTecnica INT DEFAULT NULL,
+    Originalidad INT DEFAULT NULL,
+    ValoracionGlobal INT DEFAULT NULL,
+    ArgumentosValoracion VARCHAR(256) DEFAULT NULL,
+    ComentariosRevisor VARCHAR(256) DEFAULT NULL,
     CONSTRAINT PK_revisiones PRIMARY KEY (IDArticulo, RutRev),
     CONSTRAINT FK_revisiones_IDArticulo FOREIGN KEY (IDArticulo) REFERENCES articulos(IDArticulo) ON DELETE CASCADE,
     CONSTRAINT FK_revisiones_RutRev FOREIGN KEY (RutRev) REFERENCES usuario(Rut) ON DELETE CASCADE
@@ -68,6 +68,7 @@ CREATE TABLE autoresArticulos (
 INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
 VALUES ('admin', 'admin', 'admin@gescon.com', 'admin', FALSE, FALSE);
 
+DELIMITER $$
 CREATE FUNCTION split_string_index(
     str TEXT,
     delim CHAR(1),
@@ -78,7 +79,9 @@ DETERMINISTIC
 BEGIN
     RETURN REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(str, delim, pos), delim, -1), ' ', '');
 END$$
+DELIMITER ;
 
+DELIMITER $$
 CREATE PROCEDURE crear_articulo(
     IN p_titulo VARCHAR(50),
     IN p_resumen VARCHAR(150),
@@ -126,9 +129,10 @@ BEGIN
         VALUES (topico_actual, v_id_articulo);
         SET i = i + 1;
     END WHILE;
-
 END$$
+DELIMITER ;
 
+DELIMITER $$
 CREATE VIEW vista_articulos_autor AS
 SELECT 
     a.IDArticulo,
@@ -139,7 +143,9 @@ SELECT
     aa.EsContacto
 FROM articulos a
 JOIN autoresArticulos aa ON a.IDArticulo = aa.IDArticulo;
+DELIMITER ;
 
+DELIMITER $$
 CREATE VIEW vista_admin_articulos_ordenada AS
 SELECT 
     a.IDArticulo,
@@ -157,7 +163,9 @@ LEFT JOIN revisiones r ON a.IDArticulo = r.IDArticulo
 LEFT JOIN usuario rev ON r.RutRev = rev.Rut
 GROUP BY a.IDArticulo, a.Titulo
 ORDER BY CantRevisores ASC, a.IDArticulo ASC;
+DELIMITER ;
 
+DELIMITER $$
 CREATE OR REPLACE VIEW vista_revisores_info AS
 SELECT 
     u.Rut,
@@ -172,7 +180,9 @@ LEFT JOIN revisiones r ON u.Rut = r.RutRev
 LEFT JOIN articulos a ON r.IDArticulo = a.IDArticulo
 WHERE u.EsRevisor = 1
 GROUP BY u.Rut, u.Nombre;
+DELIMITER ;
 
+DELIMITER $$
 CREATE OR REPLACE VIEW vista_revisores_asignados AS
 SELECT 
     r.IDArticulo,
@@ -187,7 +197,9 @@ LEFT JOIN topicos tr2 ON tr.IDTopico = tr2.IDTopico
 LEFT JOIN revisiones r2 ON u.Rut = r2.RutRev
 LEFT JOIN articulos a2 ON a2.IDArticulo = r2.IDArticulo
 GROUP BY r.IDArticulo, u.Rut, u.Nombre;
+DELIMITER ;
 
+DELIMITER $$
 CREATE TRIGGER triggerRevisionInsert
 AFTER INSERT ON revisiones
 FOR EACH ROW
@@ -196,7 +208,9 @@ BEGIN
     SET EnRevision = TRUE
     WHERE IDArticulo = NEW.IDArticulo;
 END;
+DELIMITER ;
 
+DELIMITER $$
 CREATE TRIGGER triggerRevisionDelete
 AFTER DELETE ON revisiones
 FOR EACH ROW
@@ -213,3 +227,4 @@ BEGIN
         WHERE IDArticulo = OLD.IDArticulo;
     END IF;
 END;
+DELIMITER ;
