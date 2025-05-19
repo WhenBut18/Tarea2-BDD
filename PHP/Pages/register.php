@@ -14,7 +14,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Registro</title>
+    <link rel="stylesheet" href="/Tarea2-BDD/CSS/register.css">
     <script>
         function validarFormulario(e) {
             const autor = document.getElementById('isAutorRegister').checked;
@@ -50,32 +51,35 @@
     </script>
 </head>
 <body>
+    <div class = "register">
     <h1>Regístrate</h1>
     <form id="registroForm" action="/Tarea2-BDD/PHP/Logic/registerLogic.php" method="post">
         <label for="nameRegister">Nombre Completo</label>
-        <input required name="nameRegister" id="nameRegister" type="text" placeholder="Ingrese su nombre completo..">
+        <input required name="nameRegister" id="nameRegister" type="text" class = "barras" placeholder="Ingrese su nombre completo..">
         <br><br>
 
         <label for="rutRegister">RUT (Ejemplo 12345678-9)</label>
-        <input required name="rutRegister" id="rutRegister" type="text" placeholder="Ingrese su rut..">
+        <input required name="rutRegister" id="rutRegister" type="text" class = "barras" placeholder="Ingrese su rut..">
         <br><br>
 
         <label for="mailRegister">Correo</label>
-        <input required id="mailRegister" name="mailRegister" type="email" placeholder="Ingrese su correo..">
+        <input required id="mailRegister" name="mailRegister" type="email" class = "barras" placeholder="Ingrese su correo..">
         <br><br>
 
         <label for="passwordRegister">Contraseña (Minimo 8 caracteres)</label>
-        <input required name="passwordRegister" id="passwordRegister" type="password" placeholder="Ingrese su contraseña..">
+        <input required name="passwordRegister" id="passwordRegister" type="password" class = "barras" placeholder="Ingrese su contraseña..">
         <br><br>
 
         <label>Roles (selecciona al menos uno)</label><br>
+        <div class = "roles">
         <input name="isAutorRegister" id="isAutorRegister" type="checkbox" value="yes">
         <label for="isAutorRegister">Autor</label><br>
 
         <input name="isRevisorRegister" id="isRevisorRegister" type="checkbox" value="yes">
         <label for="isRevisorRegister">Revisor</label>
+        </div>
         <br><br>
-
+        
         <div id="topicosRevisor" style="display:none; border:1px solid #ccc; padding:10px;">
             <strong>Selecciona tus tópicos de revisión:</strong><br>
             <?php foreach ($topicos as $topico): ?>
@@ -89,5 +93,6 @@
     </form>
 
     <h3>¿Ya estás registrado? <a href="/Tarea2-BDD/PHP/Pages/login.php">Inicia sesión aquí.</a></h3>
+    </div>
 </body>
 </html>

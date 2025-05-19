@@ -23,15 +23,19 @@ $user = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Menu Principal</title>
+    <link rel="stylesheet" href="/Tarea2-BDD/CSS/index.css">
 </head>
 <body>
+    <div class = "sup">
     <h1>GESCON</h1>
-
-    <h5><a href="/Tarea2-BDD/PHP/Pages/userInfo.php"><button>Administrar Perfil</button></a> <a href="/Tarea2-BDD/PHP/Pages/logout.php"><button>Cerrar Sesion</button></a></h5>
-
+        <div class = "supder">
+        <h5><a href="/Tarea2-BDD/PHP/Pages/userInfo.php"><button>Administrar Perfil</button></a> <a href="/Tarea2-BDD/PHP/Pages/logout.php"><button>Cerrar Sesion</button></a></h5>
+        </div>
+    </div>
+    <div class = "planilla">
     <?php echo '<h2>Bienvenido ' . $user["Nombre"] . '<br>Menu de Acciones:<h2>'?>
-
+    <div class = "botones-planilla">
     <?php if ($user["EsAutor"] == true){?>
     <H4><a href="/Tarea2-BDD/PHP/Pages/createArticle.php"><button>Crear y Enviar un Articulo</button></a></H4>
     <H4><a href="/Tarea2-BDD/PHP/Pages/checkArticle.php"><button>Revisar y Editar mis Articlos</button></a></H4>
@@ -44,6 +48,8 @@ $user = $result->fetch_assoc();
     <H4><a href="/Tarea2-BDD/PHP/Pages/reviewerManagement.php"><button>Gestionar Comite de Revisores</button></a></H4>
     <?php }?>
     <a href="/Tarea2-BDD/PHP/Pages/evaluatedArticles.php"><button>Ver Todos los Articulos Evaluados</button></a>
+    </div>
+    </div>
     <!--Sección Barra de Busqueda-->
     <?php
     $sqlA = "SELECT Rut, Nombre FROM usuario WHERE EsAutor = 1";
@@ -53,7 +59,7 @@ $user = $result->fetch_assoc();
     $Revisores = $mysqli->query($sqlR);
     $Topicos = $mysqli->query($sqlT);
     ?>
-    <form method="GET" class="sidebar">
+    <form method="GET" class="barra">
         <h1>Busqueda Avanzada de Articulos</h1>
         <label for="Autores">Selecciona un Autor:</label>
         <select name="autor" id="Autores">

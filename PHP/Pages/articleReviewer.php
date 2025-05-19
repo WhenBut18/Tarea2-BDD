@@ -49,6 +49,11 @@ $result = $mysqli->query($sql);
                     <?php if ((int)$row["CantRevisores"] > 0): ?>
                         <a href="deleteArticleReviewer.php?id=<?= $row["IDArticulo"] ?>"><button>Quitar Revisor</button></a>
                     <?php endif; ?>
+                    <?php if ((int)$row["CantRevisores"] < 3): ?>
+                        <a href="autoAssignReviewer.php?id=<?= $row["IDArticulo"] ?>" onclick="return confirm('¿Deseas asignar automáticamente los revisores faltantes?');">
+                            <button>Automático</button>
+                        </a>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endwhile; ?>

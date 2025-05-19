@@ -1,0 +1,39 @@
+/* Asegura que todo el cuerpo de la página use todo el alto de la ventana */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;                  /* Flexbox para centrar */
+    justify-content: center;       /* Centra horizontalmente */
+    align-items: center;           /* Centra verticalmente */
+    background-color: #000000;     /* Color de fondo general */
+    font-family: Arial, sans-serif;
+}
+
+/* Contenedor del formulario u otro contenido */
+.login {
+    background-color: #ffffff;     /* Fondo blanco o el que prefieras */
+    padding: 40px;                 /* Espaciado interior */
+    border-radius: 10px;           /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    text-align: center;            /* Centra el texto dentro del bloque */
+    width: 90%;
+    max-width: 400px;              /* Máximo ancho para que se vea bien */
+}
+
+.barras{
+    width: 300px;
+    height: 35px;
+    font-size: 16px;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login label{
+    display:block;
+    font-weight: bold;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }

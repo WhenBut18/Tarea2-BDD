@@ -1,0 +1,92 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Barra superior */
+.sup {
+    background-color: #333;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sup h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.sup .supder a button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: #555;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.sup .supder a button:hover {
+    background-color: #777;
+}
+
+/* Contenedor principal del formulario */
+.planilla {
+    background-color: white;
+    margin: 40px auto;
+    padding: 40px;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: left; /* <== importante: alinea el contenido del formulario a la izquierda */
+}
+
+/* Estilo de etiquetas */
+.planilla label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilo de inputs */
+.planilla input[type="text"],
+.planilla input[type="email"],
+.planilla input[type="contraseña"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Botones del formulario */
+.planilla button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.planilla button:hover {
+    background-color: #45a049;
+}
+
+/* Botón rojo para eliminar cuenta */
+.planilla form:last-of-type button {
+    background-color: white;
+    color: red;
+    border: 1px solid red;
+    margin-top: 20px;
+}
+

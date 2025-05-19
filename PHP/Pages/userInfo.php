@@ -33,11 +33,16 @@ if (isset($_SESSION["mensaje_exito"])) {
 <head>
     <meta charset="UTF-8">
     <title>Información de Usuario</title>
+    <link rel="stylesheet" href="/Tarea2-BDD/CSS/userInfo.css">
 </head>
 <body>
-    <h1>Mi Perfil</h1> <a href="index.php"><button>Volver al Menu Principal</button></a><br><br>
-
-    
+    <div class = "sup">
+        <h1>Mi Perfil</h1>
+        <div class = "supder">
+        <a href="index.php"><button>Volver al Menu Principal</button></a><br><br>
+        </div>
+    </div>
+    <div class = "planilla">
     <form action="/Tarea2-BDD/PHP/Logic/updateUserLogic.php" method="POST">
         <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" value="<?= htmlspecialchars($user['Nombre']) ?>" required><br><br>
@@ -53,11 +58,10 @@ if (isset($_SESSION["mensaje_exito"])) {
         <button type="submit">Guardar cambios</button>
     </form>
 
-    <hr>
-
     <form action="/Tarea2-BDD/PHP/Logic/deleteUserLogic.php" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no se puede deshacer.');">
         <button type="submit" style="color: red;">Eliminar cuenta</button>
     </form>
+    </div>
 
     <?php if (!empty($mensaje)): ?>
         <p style="color: green;"><?= htmlspecialchars($mensaje) ?></p>
