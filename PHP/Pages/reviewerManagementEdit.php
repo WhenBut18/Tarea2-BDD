@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Editar Revisor</title>
 </head>
 <body>
-<h2>Editar Revisor (<?= htmlspecialchars($rut) ?>)</h2>
+<h1>Editar Revisor (<?= htmlspecialchars($rut) ?>)</h1>
 
 <?php if ($exito): ?>
     <p style="color: green;">Datos actualizados correctamente.</p>

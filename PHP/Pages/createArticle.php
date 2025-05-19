@@ -53,8 +53,9 @@
     </script>
 </head>
 <body>
-    <h5><a href="/Tarea2-BDD/PHP/Pages/index.php"><button>Volver al Menu Principal</button></a></h5>
+    
     <h1>Envio de Articulo</h1>
+    <h5><a href="/Tarea2-BDD/PHP/Pages/index.php"><button>Volver al Menu Principal</button></a></h5>
     <form id="formularioArticulo" action="/Tarea2-BDD/PHP/Logic/createArticleLogic.php" method="POST">
         <label for="titleSubmit">Titulo del Articulo</label>
         <br>

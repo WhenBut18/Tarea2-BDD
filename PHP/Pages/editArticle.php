@@ -96,7 +96,7 @@ while ($fila = $resultTodosTopicos->fetch_assoc()) {
 </head>
 <body>
 
-<h2>Editar Artículo: <?= htmlspecialchars($articulo['Titulo']) ?></h2>
+<h1>Editar Artículo: <?= htmlspecialchars($articulo['Titulo']) ?></h1>
 <a href="/Tarea2-BDD/PHP/Pages/checkArticle.php"><button>Volver</button></a>
 <form action="..\Logic\updateArticle.php" method="post">
     <input type="hidden" name="idArticulo" value="<?= $articulo['IDArticulo'] ?>">

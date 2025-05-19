@@ -80,7 +80,7 @@ $revisores = $stmt->get_result();
     <title>Asignar Revisor al Artículo #<?= $idArticulo ?></title>
 </head>
 <body>
-<h2>Asignar Revisor al Artículo #<?= $idArticulo ?></h2>
+<h1>Asignar Revisor al Artículo #<?= $idArticulo ?></h1>
 
 <?php if ($revisores->num_rows === 0): ?>
     <p>No hay revisores disponibles que cumplan con los requisitos.</p>

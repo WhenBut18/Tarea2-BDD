@@ -67,10 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Añadir Revisor</title>
 </head>
 <body>
-<h2>Añadir Nuevo Revisor</h2>
+<h1>Añadir Nuevo Revisor</h1>
 
 <?php if ($exito): ?>
-    <p style="color: green;">Revisor añadido exitosamente. <a href="reviewerManagement.php"><button>Volver a la gestión de revisores</button></a></p>
+    <p style="color: green;">Revisor añadido exitosamente.</p>
 <?php endif; ?>
 
 <?php if (!empty($errores)): ?>

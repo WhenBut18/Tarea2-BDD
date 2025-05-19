@@ -37,16 +37,16 @@ $user = $result->fetch_assoc();
     <?php echo '<h2>Bienvenido ' . $user["Nombre"] . '<br>Menu de Acciones:<h2>'?>
 
     <?php if ($user["EsAutor"] == true){?>
-    <H4><a href="/Tarea2-BDD/PHP/Pages/createArticle.php"><button>Crear Articulo</button></a></H4>
-    <H4><a href="/Tarea2-BDD/PHP/Pages/checkArticle.php"><button>Revisar Articulos</button></a></H4>
+    <H4><a href="/Tarea2-BDD/PHP/Pages/createArticle.php"><button>Crear y Enviar un Articulo</button></a></H4>
+    <H4><a href="/Tarea2-BDD/PHP/Pages/checkArticle.php"><button>Revisar y Editar mis Articlos</button></a></H4>
     <?php }?>
     <?php if ($user["EsRevisor"] == true){?>
-        <H4><a href="/Tarea2-BDD/PHP/Pages/reviewArticle.php"><button>Revisar Articulo</button></a></H4>
+        <H4><a href="/Tarea2-BDD/PHP/Pages/reviewArticle.php"><button>Evaluar Articulos Asignados</button></a></H4>
     <?php }?>
     <?php if ($user["Rut"] == "admin"){?>
     <H4><a href="/Tarea2-BDD/PHP/Pages/articleReviewer.php"><button>Asignar Revisores a Articulos</button></a></H4>
-    <H4><a href="/Tarea2-BDD/PHP/Pages/reviewerManagement.php"><button>Gestionar Revisores</button></a></H4>
+    <H4><a href="/Tarea2-BDD/PHP/Pages/reviewerManagement.php"><button>Gestionar Comite de Revisores</button></a></H4>
     <?php }?>
-    <a href="/Tarea2-BDD/PHP/Pages/evaluatedArticles.php"><button>Ver Artículos Evaluados</button></a>
+    <a href="/Tarea2-BDD/PHP/Pages/evaluatedArticles.php"><button>Ver Todos los Articulos Evaluados</button></a>
 </body>
 </html> 

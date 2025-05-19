@@ -35,7 +35,7 @@ if (isset($_SESSION["mensaje_exito"])) {
     <title>Información de Usuario</title>
 </head>
 <body>
-    <h2>Mi Perfil</h2> <a href="index.php"><button>Volver al Inicio</button></a><br><br>
+    <h1>Mi Perfil</h1> <a href="index.php"><button>Volver al Menu Principal</button></a><br><br>
 
     
     <form action="/Tarea2-BDD/PHP/Logic/updateUserLogic.php" method="POST">

@@ -21,7 +21,8 @@ $result = $mysqli->query($sql);
     <title>Panel del Jefe del Comité</title>
 </head>
 <body>
-    <h2>Panel del Jefe del Comité</h2>
+    <h1>Panel del Jefe del Comité</h1>
+    <h5><a href="/Tarea2-BDD/PHP/Pages/index.php"><button>Volver al Menu Principal</button></a></h5>
     <table border="1">
         <thead>
             <tr>
@@ -53,7 +54,7 @@ $result = $mysqli->query($sql);
         <?php endwhile; ?>
         </tbody>
     </table>
-    <h5><a href="/Tarea2-BDD/PHP/Pages/index.php"><button>Volver al Menu Principal</button></a></h5>
+
 </body>
 </html>
 

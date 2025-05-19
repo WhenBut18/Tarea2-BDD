@@ -17,11 +17,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-if (!$user || (!$user['EsAutor'] && !$user['EsRevisor'])) {
-    header("Location: /Tarea2-BDD/PHP/Pages/login.php");
-    exit();
-}
-
 // Obtener artículos completamente evaluados
 $sql = "SELECT * FROM vista_articulos_evaluados ORDER BY IDArticulo DESC";
 $result = $mysqli->query($sql);
@@ -34,7 +29,7 @@ $result = $mysqli->query($sql);
     <title>Artículos Evaluados</title>
 </head>
 <body>
-    <h2>Artículos Completamente Evaluados</h2>
+    <h1>Artículos Completamente Evaluados</h1>
     <a href="/Tarea2-BDD/PHP/Pages/index.php"><button>Volver al menú principal</button></a>
     <br><br>
     <table border="1">
@@ -44,7 +39,6 @@ $result = $mysqli->query($sql);
             <th>Resumen</th>
             <th>Tópicos</th>
             <th>Autores</th>
-            <th>Valoración Global</th>
         </tr>
         <?php if ($result->num_rows === 0): ?>
             <tr><td colspan="6">No hay artículos evaluados completamente aún.</td></tr>
@@ -56,7 +50,6 @@ $result = $mysqli->query($sql);
                     <td><?= htmlspecialchars($row["Resumen"]) ?></td>
                     <td><?= nl2br(htmlspecialchars($row["Topicos"])) ?></td>
                     <td><?= nl2br(htmlspecialchars($row["Autores"])) ?></td>
-                    <td><?= htmlspecialchars($row["ValoracionGlobal"]) ?></td>
                 </tr>
             <?php endwhile; ?>
         <?php endif; ?>

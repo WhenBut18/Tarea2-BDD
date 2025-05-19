@@ -26,7 +26,7 @@ CREATE TABLE revisiones (
     IDArticulo INT,
     RutRev VARCHAR(12),
     CalidadTecnica INT DEFAULT NULL,
-    Originalidad INT DEFAULT NULL,
+    CalidadTecnica INT DEFAULT NULL,
     ValoracionGlobal INT DEFAULT NULL,
     ArgumentosValoracion VARCHAR(256) DEFAULT NULL,
     ComentariosRevisor VARCHAR(256) DEFAULT NULL,
@@ -243,3 +243,14 @@ WHERE a.IDArticulo NOT IN (
 )
 GROUP BY a.IDArticulo;
 
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (4, 'Ciberseguridad');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (5, 'Desarrollo Web');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (6, 'Minería de Datos');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (7, 'Ingeniería de Software');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (8, 'Computación Gráfica');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (9, 'Arquitectura de Computadores');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (10, 'Sistemas Distribuidos');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (11, 'Salud Pública');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (12, 'Nutrición');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (13, 'Biotecnología');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES (14, 'Genética');

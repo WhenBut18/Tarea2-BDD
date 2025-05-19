@@ -34,7 +34,7 @@ if ($result->num_rows === 0) {
     <title>Quitar Revisor</title>
 </head>
 <body>
-<h2>Revisores asignados al artículo #<?= $idArticulo ?></h2>
+<h1>Revisores asignados al artículo #<?= $idArticulo ?></h1>
 <table border="1">
     <tr>
         <th>Nombre</th>

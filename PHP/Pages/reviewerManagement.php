@@ -29,8 +29,8 @@ $result = $mysqli->query($sql);
     <title>Gestión de Revisores</title>
 </head>
 <body>
-    <h2>Gestión de Revisores</h2>
-    <a href="reviewerManagementAdd.php"><button>Añadir nuevo revisor</button></a>
+    <h1>Gestión de Revisores</h1>
+    <h5><a href="/Tarea2-BDD/PHP/Pages/index.php"><button>Volver al Menu Principal</button></a></h5>
     <table border="1" cellpadding="8">
         <tr>
             <th>RUT</th>
@@ -46,7 +46,7 @@ $result = $mysqli->query($sql);
                 <td><?= htmlspecialchars($row["Correo"]) ?></td>
                 <td><?= nl2br(htmlspecialchars($row["Topicos"])) ?></td>
                 <td>
-                    <a href="reviewerManagementEdit.php?rut=<?= $row["Rut"] ?>"><button>Editar</button></a> |
+                    <a href="reviewerManagementEdit.php?rut=<?= $row["Rut"] ?>"><button>Editar</button></a>
                     <?php
                         // Verificar si tiene artículos asignados
                         $stmt = $mysqli->prepare("SELECT COUNT(*) as total FROM revisiones WHERE RutRev = ?");
@@ -64,6 +64,8 @@ $result = $mysqli->query($sql);
             </tr>
         <?php endwhile; ?>
     </table>
-    <h5><a href="/Tarea2-BDD/PHP/Pages/index.php"><button>Volver al Menu Principal</button></a></h5>
+    <br>
+    <a href="reviewerManagementAdd.php"><button>Añadir nuevo revisor</button></a>
+    
 </body>
 </html>
