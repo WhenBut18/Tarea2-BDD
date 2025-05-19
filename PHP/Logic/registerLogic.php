@@ -17,11 +17,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Validación de formato RUT
-    if (!preg_match("/^\d{7,8}-[\dkK]$/", $rutRegister)) {
-        echo "El RUT ingresado no tiene un formato válido. Debe ser como '12345678-9'.";
-        echo '<br><a href="/Tarea2-BDD/PHP/Pages/register.php">Volver al registro</a>';
+    // Validacion de Formatos correctos
+    if (!preg_match("/^\d{7,8}-[\dkK]$/", $rutRegister) && strlen($passwordRegister)<8){
+        echo "REGISTRO INVÁLIDO<br><br>";
+        echo"Contraseña debe tener al menos 8 caractéres. RUT ingresado no tiene un formato válido. Debe ser como '12345678-9'.";
+        echo '<br><a href="/Tarea2-BDD/PHP/Pages/register.php"><button>Volver al registro</button></a>';
         exit();
+    } else{
+        // Validación de formato RUT
+        if (!preg_match("/^\d{7,8}-[\dkK]$/", $rutRegister)) {
+            echo "REGISTRO INVÁLIDO<br><br>";
+            echo "El RUT ingresado no tiene un formato válido. Debe ser como '12345678-9'.";
+            echo '<br><a href="/Tarea2-BDD/PHP/Pages/register.php"><button>Volver al registro</button></a>';
+            exit();
+        }
+        if (strlen($passwordRegister)<8) {
+            echo "REGISTRO INVÁLIDO<br><br>";
+            echo "Su contraseña debe tener al menos 8 caractéres";
+            echo '<br><a href="/Tarea2-BDD/PHP/Pages/register.php"><button>Volver al registro</button></a>';
+            exit();
+        }
     }
 
     // Conexión a la base de datos
@@ -36,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->num_rows > 0) {
         echo "El Rut o el Correo ya están registrados.";
-        echo '<br><a href="/Tarea2-BDD/PHP/Pages/register.php">Intentar de nuevo</a>';
+        echo '<br><a href="/Tarea2-BDD/PHP/Pages/register.php"><button>Volver al registro</button></a>';
         exit();
     }
 
