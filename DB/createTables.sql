@@ -26,7 +26,7 @@ CREATE TABLE revisiones (
     IDArticulo INT,
     RutRev VARCHAR(12),
     CalidadTecnica INT DEFAULT NULL,
-    CalidadTecnica INT DEFAULT NULL,
+    Originalidad INT DEFAULT NULL,
     ValoracionGlobal INT DEFAULT NULL,
     ArgumentosValoracion VARCHAR(256) DEFAULT NULL,
     ComentariosRevisor VARCHAR(256) DEFAULT NULL,
@@ -60,8 +60,7 @@ CREATE TABLE autoresArticulos (
     CONSTRAINT FK_autoresArticulos_RutAut FOREIGN KEY (RutAut) REFERENCES usuario(Rut) ON DELETE CASCADE
 );
 
-INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
-VALUES ('admin', 'admin', 'admin@gescon.com', 'admin', FALSE, FALSE);
+
 
 -- Cambiamos delimitador para crear funciones y procedimientos
 DELIMITER $$
@@ -243,14 +242,76 @@ WHERE a.IDArticulo NOT IN (
 )
 GROUP BY a.IDArticulo;
 
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (4, 'Ciberseguridad');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (5, 'Desarrollo Web');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (6, 'Minería de Datos');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (7, 'Ingeniería de Software');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (8, 'Computación Gráfica');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (9, 'Arquitectura de Computadores');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (10, 'Sistemas Distribuidos');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (11, 'Salud Pública');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (12, 'Nutrición');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (13, 'Biotecnología');
-INSERT INTO topicos (IDTopico, NombreTopico) VALUES (14, 'Genética');
+INSERT INTO topicos (IDTopico, NombreTopico) VALUES
+(4, 'Ciberseguridad'),
+(5, 'Desarrollo Web'),
+(6, 'Minería de Datos'),
+(7, 'Ingeniería de Software'),
+(8, 'Computación Gráfica'),
+(9, 'Arquitectura de Computadores'),
+(10, 'Sistemas Distribuidos'),
+(11, 'Salud Pública'),
+(12, 'Nutrición'),
+(13, 'Biotecnología'),
+(14, 'Genética');
+
+
+INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor) VALUES
+('11111111-1', 'Ana Pérez', 'ana.perez@example.com', 'pass1234', TRUE, FALSE),
+('22222222-2', 'Luis Gómez', 'luis.gomez@example.com', 'pass1234', TRUE, TRUE),
+('33333333-3', 'María López', 'maria.lopez@example.com', 'pass1234', FALSE, TRUE),
+('44444444-4', 'Jorge Díaz', 'jorge.diaz@example.com', 'pass1234', TRUE, TRUE),
+('55555555-5', 'Claudia Ruiz', 'claudia.ruiz@example.com', 'pass1234', TRUE, FALSE),
+('66666666-6', 'Pedro Martínez', 'pedro.martinez@example.com', 'pass1234', FALSE, TRUE),
+('77777777-7', 'Laura Castillo', 'laura.castillo@example.com', 'pass1234', TRUE, FALSE),
+('88888888-8', 'Diego Herrera', 'diego.herrera@example.com', 'pass1234', FALSE, TRUE);
+
+INSERT INTO articulos (Titulo, FechaEnvio, Resumen, EnRevision) VALUES
+('Avances en Ciberseguridad', '2025-05-01', 'Análisis de nuevas técnicas en seguridad informática.', TRUE),
+('Tendencias en Desarrollo Web', '2025-05-05', 'Exploración de frameworks modernos para la web.', TRUE),
+('Aplicaciones de Minería de Datos', '2025-05-10', 'Estudio de casos prácticos en minería de datos.', FALSE);
+
+INSERT INTO topicosArticulos (IDTopico, IDArticulo) VALUES
+(4, 1),  -- Ciberseguridad para artículo 1
+(7, 1),  -- Ingeniería de Software para artículo 1
+
+(5, 2),  -- Desarrollo Web para artículo 2
+(7, 2),  -- Ingeniería de Software para artículo 2
+
+(6, 3);  -- Minería de Datos para artículo 3
+
+
+INSERT INTO topicosRevisores (IDTopico, RutRev) VALUES
+(4, '33333333-3'),  -- María López (revisora) en Ciberseguridad
+(7, '33333333-3'),  -- María López en Ingeniería de Software
+
+(5, '22222222-2'),  -- Luis Gómez (autor y revisor) en Desarrollo Web
+(7, '22222222-2'),
+
+(6, '66666666-6'),  -- Pedro Martínez (revisor) en Minería de Datos
+(10, '66666666-6'),
+
+(4, '44444444-4'),  -- Jorge Díaz (autor y revisor) en Ciberseguridad
+(7, '44444444-4'),
+
+(5, '88888888-8'),  -- Diego Herrera (revisor) en Desarrollo Web
+(6, '88888888-8');
+
+INSERT INTO autoresArticulos (IDArticulo, RutAut, EsContacto) VALUES
+(1, '11111111-1', TRUE),   -- Ana Pérez es autor contacto artículo 1
+(1, '22222222-2', FALSE),  -- Luis Gómez coautor artículo 1
+
+(2, '44444444-4', TRUE),   -- Jorge Díaz autor contacto artículo 2
+(2, '55555555-5', FALSE),  -- Claudia Ruiz coautora artículo 2
+
+(3, '77777777-7', TRUE);   -- Laura Castillo autor contacto artículo 3
+
+INSERT INTO revisiones (
+    IDArticulo, RutRev, CalidadTecnica, Originalidad, ValoracionGlobal, ArgumentosValoracion, ComentariosRevisor
+) VALUES (
+    1, '33333333-3', 8, 9, 7, 'Buena estructura y aporte técnico.', 'Muy recomendable para publicación.'
+);
+
+
+INSERT INTO usuario (Rut, Nombre, Correo, Contraseña, EsAutor, EsRevisor)
+VALUES ('admin', 'admin', 'admin@gescon.com', 'admin', FALSE, FALSE);
